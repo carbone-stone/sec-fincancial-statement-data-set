@@ -21,12 +21,16 @@ def main():
             logger.error(f'No CIK found for {ticker}')
             continue
 
-        # get the collector
-        collector = CompanyReportCollector.get_company_collector(cik=cik, forms=['10-K', '10-Q'])
-        fin_df = collector.financial_statements_for_period()
-        fin_df.to_csv('./data/financial_statements_{}.csv'.format(ticker), mode='a', header=False)
+        try:
+            # get the collector
+            collector = CompanyReportCollector.get_company_collector(cik=cik, forms=['10-K', '10-Q'])
+            fin_df = collector.financial_statements_for_period()
+            fin_df.to_csv('./data/financial_statements_{}.csv'.format(ticker), mode='a', header=False)
 
-        logger.info(f'Collected {len(fin_df)} financial statements for {ticker}, with shape of the dataframe {fin_df.shape}')
+            logger.info(f'Collected {len(fin_df)} financial statements for {ticker}, with shape of the dataframe {fin_df.shape}')
+        except Exception as e:
+            logger.error(f'Error producing data for {ticker}: {e}')
+
 
 
 if __name__ == '__main__':
