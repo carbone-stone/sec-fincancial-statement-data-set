@@ -1,5 +1,6 @@
 from sec_cik_mapper import StockMapper
 from secfsdstools.e_read.companycollecting import CompanyReportCollector
+from secfsdstools.update import update
 
 import pandas as pd
 #use loguru for logging
@@ -8,6 +9,7 @@ from loguru import logger
 
 # write main
 def main():
+    update()
     stock_mapper = StockMapper() 
     ticker_to_cik_dict = stock_mapper.ticker_to_cik
     tickers = pd.read_csv('tickers_trimmed.csv').ticker.tolist()
