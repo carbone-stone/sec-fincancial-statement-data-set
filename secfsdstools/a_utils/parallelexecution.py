@@ -157,7 +157,10 @@ class ParallelExecutor(Generic[IT, PT, OT]):
             # if chunksize is zero, we just create a single chunk
             if self.chunksize == 0:
                 chunk_entries = len(missing)
-
+            
+            if chunk_entries == 0 or len(missing) <= 1:
+                break
+            
             for i in range(0, len(missing), chunk_entries):
                 chunk = missing[i:i + chunk_entries]
 
